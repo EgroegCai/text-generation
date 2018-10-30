@@ -191,8 +191,8 @@ class LanguageModelTrainer:
         self.predictions.append(predictions)
         nll = test_prediction(predictions, fixtures_pred['out'])
         
-        generated_logits = TestLanguageModel.generation(fixtures_gen, 20, self.model) # predictions for 20 words
-        generated_logits_test = TestLanguageModel.generation(fixtures_gen_test, 20, self.model) # predictions for 20 words
+        generated_logits = TestLanguageModel.generation(fixtures_gen, 10, self.model) # predictions for 20 words
+        generated_logits_test = TestLanguageModel.generation(fixtures_gen_test, 10, self.model) # predictions for 20 words
 
         generated = test_generation(fixtures_gen, generated_logits, vocab)
         generated_test = test_generation(fixtures_gen_test, generated_logits_test, vocab)
@@ -267,7 +267,8 @@ class TestLanguageModel:
                 scores = model.scoring(output) # BS x V
                 _,current_word = torch.max(scores, dim=1, keepdim=True) # BS x 1
                 generated_words.append(current_word)        
-        return torch.cat(generated_words, dim=1).cpu().detach().numpy() # BS x forward
+        prediction = torch.cat(generated_words, dim=1).cpu().detach().numpy() # BS x forward        
+        return prediction
 
 
 # TODO: define other hyperparameters here
