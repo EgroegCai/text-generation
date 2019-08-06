@@ -284,7 +284,7 @@ os.mkdir('./experiments/%s' % run_id)
 print("Saving models, predictions, and generated words to ./experiments/%s" % run_id)
 
 
-model = LanguageModel(len(vocab)).to(DEVICE)
+model = LanguageModel(len(vocab)+1).to(DEVICE)
 loader = LanguageModelDataLoader(dataset=dataset, batch_size=BATCH_SIZE, shuffle=True)
 trainer = LanguageModelTrainer(model=model, loader=loader, max_epochs=NUM_EPOCHS, run_id=run_id)
 
